@@ -20,6 +20,11 @@ ExpenseTrack is a modern, lightweight Android application designed to help users
 - **Architecture:** MVVM-ready structure with repository-style data access.
 - **Permissions:** Dynamic handling for Camera and Notification permissions.
 
+### Screenshots
+| Dashboard |  |  |
+| :---: | :---: | :---: |
+| <img src="screenshots/toast_1.png" width="250"> | <img src="screenshots/toast_2.png" width="250"> | <img src="screenshots/toast_3.png" width="250"> |
+
 ## 🧠 Core Concepts & Code Logic
 
 ### 1. Database Architecture (Room)
