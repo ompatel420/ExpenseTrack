@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,11 +17,12 @@
             android:id="@+id/tvBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
             android:text="‹"
             android:textColor="#111827"
             android:textSize="30sp"
-            android:clickable="true"
-            android:focusable="true" />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <TextView
             android:layout_width="0dp"
@@ -62,11 +64,12 @@
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="💳"
-            android:textSize="40sp" />
+        <ImageView
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:contentDescription="No expenses"
+            android:src="@android:drawable/ic_menu_myplaces"
+            app:tint="#D1D5DB" />
 
         <TextView
             android:layout_width="wrap_content"

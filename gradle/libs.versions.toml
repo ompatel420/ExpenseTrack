@@ -26,4 +26,3 @@ androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-kapt = { id = "com.android.legacy-kapt", version.ref = "agp" }
-

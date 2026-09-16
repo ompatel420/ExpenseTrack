@@ -15,11 +15,12 @@
             android:id="@+id/tvBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:minHeight="48dp"
             android:text="‹  Back"
             android:textColor="#111827"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:focusable="true" />
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -82,23 +83,32 @@
             android:textColor="#374151"
             android:textSize="15sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:text="Receipt"
-            android:textColor="#111827"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/ivDetailReceipt"
+        <LinearLayout
+            android:id="@+id/layoutReceipt"
             android:layout_width="match_parent"
-            android:layout_height="240dp"
-            android:layout_marginTop="8dp"
-            android:background="#DDF5EA"
-            android:contentDescription="Receipt"
-            android:scaleType="centerCrop" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="22dp"
+                android:text="Receipt"
+                android:textColor="#111827"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivDetailReceipt"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_marginTop="8dp"
+                android:background="#DDF5EA"
+                android:contentDescription="Receipt"
+                android:scaleType="centerCrop" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

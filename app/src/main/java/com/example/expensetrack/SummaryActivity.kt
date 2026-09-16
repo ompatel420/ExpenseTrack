@@ -5,7 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.expensetrack.database.AppDatabase
 import com.example.expensetrack.databinding.ActivitySummaryBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -28,11 +30,11 @@ class SummaryActivity : AppCompatActivity() {
     }
 
     private fun loadSummary() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val monthFilter = SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
             val monthlyExpenses = database.expenseDao().getAllExpenses().filter { it.date.contains(monthFilter) }
 
-            runOnUiThread {
+            withContext(Dispatchers.Main) {
                 binding.apply {
                     tvSummaryTotal.text = Utils.formatCurrency(monthlyExpenses.sumOf { it.amount })
                     tvFoodTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Food" }.sumOf { it.amount })

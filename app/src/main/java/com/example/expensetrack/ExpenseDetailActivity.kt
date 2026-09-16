@@ -11,7 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import com.example.expensetrack.database.AppDatabase
 import com.example.expensetrack.database.Expense
 import com.example.expensetrack.databinding.ActivityExpenseDetailBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExpenseDetailActivity : AppCompatActivity() {
 
@@ -45,20 +47,23 @@ class ExpenseDetailActivity : AppCompatActivity() {
     }
 
     private fun loadExpenseDetails() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val expense = database.expenseDao().getExpenseById(expenseId)
             currentExpense = expense
-            runOnUiThread {
+            withContext(Dispatchers.Main) {
                 if (expense != null) {
                     binding.apply {
                         tvDetailAmount.text = Utils.formatCurrency(expense.amount)
                         tvDetailCategory.text = expense.category
                         tvDetailDate.text = expense.date
                         tvDetailNote.text = expense.note.ifEmpty { "No note" }
-                        if (expense.receiptUri != null) {
+                        
+                        if (!expense.receiptUri.isNullOrEmpty()) {
                             ivDetailReceipt.setImageURI(Uri.parse(expense.receiptUri))
-                            ivDetailReceipt.visibility = View.VISIBLE
-                        } else ivDetailReceipt.visibility = View.GONE
+                            layoutReceipt.visibility = View.VISIBLE
+                        } else {
+                            layoutReceipt.visibility = View.GONE
+                        }
                     }
                 } else finish()
             }
@@ -72,10 +77,10 @@ class ExpenseDetailActivity : AppCompatActivity() {
     }
 
     private fun deleteExpense() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             currentExpense?.let {
                 database.expenseDao().deleteExpense(it)
-                runOnUiThread {
+                withContext(Dispatchers.Main) {
                     Toast.makeText(this@ExpenseDetailActivity, "Expense deleted", Toast.LENGTH_SHORT).show()
                     finish()
                 }

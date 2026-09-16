@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.expensetrack.adapter.ExpenseAdapter
 import com.example.expensetrack.database.AppDatabase
 import com.example.expensetrack.databinding.ActivityExpenseListBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class ExpenseListActivity : AppCompatActivity() {
 
@@ -50,10 +52,10 @@ class ExpenseListActivity : AppCompatActivity() {
     }
 
     private fun loadExpenses() {
-        lifecycleScope.launch {
+        lifecycleScope.launch(Dispatchers.IO) {
             val expenses = database.expenseDao().getAllExpenses()
             
-            runOnUiThread {
+            withContext(Dispatchers.Main) {
                 if (expenses.isEmpty()) {
                     binding.layoutEmptyState.visibility = View.VISIBLE
                     binding.recyclerViewExpenses.visibility = View.GONE

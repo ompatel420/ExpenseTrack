@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.expensetrack.R
 import com.example.expensetrack.Utils
 import com.example.expensetrack.database.Expense
 import com.example.expensetrack.databinding.ItemExpenseBinding
@@ -20,14 +21,17 @@ class ExpenseAdapter(
                 tvAmount.text = Utils.formatCurrency(expense.amount)
                 tvDate.text = expense.date
                 tvNote.text = expense.note.ifEmpty { "No note" }
-                tvCategoryIcon.text = when (expense.category) {
-                    "Food" -> "🍔"
-                    "Travel" -> "🚕"
-                    "Shopping" -> "🛍"
-                    "Bills" -> "💡"
-                    "Entertainment" -> "🎬"
-                    else -> "📦"
+                
+                val iconRes = when (expense.category) {
+                    "Food" -> R.drawable.ic_food
+                    "Travel" -> R.drawable.ic_travel
+                    "Shopping" -> R.drawable.ic_shopping
+                    "Bills" -> R.drawable.ic_bills
+                    "Entertainment" -> R.drawable.ic_entertainment
+                    else -> R.drawable.ic_other
                 }
+                ivCategoryIcon.setImageResource(iconRes)
+
                 ivReceipt.visibility = if (expense.receiptUri != null) View.VISIBLE else View.GONE
                 root.setOnClickListener { onExpenseClick(expense) }
             }
