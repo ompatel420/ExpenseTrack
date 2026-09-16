@@ -14,6 +14,8 @@ import com.example.expensetrack.databinding.ActivityExpenseDetailBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.NumberFormat
+import java.util.Locale
 
 class ExpenseDetailActivity : AppCompatActivity() {
 
@@ -37,6 +39,7 @@ class ExpenseDetailActivity : AppCompatActivity() {
             startActivity(Intent(this, AddExpenseActivity::class.java).apply { putExtra("EXPENSE_ID", expenseId) })
         }
         binding.btnDelete.setOnClickListener { showDeleteDialog() }
+        binding.btnShareExpense.setOnClickListener { shareExpense() }
 
         loadExpenseDetails()
     }
@@ -53,7 +56,7 @@ class ExpenseDetailActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 if (expense != null) {
                     binding.apply {
-                        tvDetailAmount.text = Utils.formatCurrency(expense.amount)
+                        tvDetailAmount.text = formatCurrency(expense.amount)
                         tvDetailCategory.text = expense.category
                         tvDetailDate.text = expense.date
                         tvDetailNote.text = expense.note.ifEmpty { "No note" }
@@ -86,5 +89,31 @@ class ExpenseDetailActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun shareExpense() {
+        currentExpense?.let { expense ->
+            val shareText = """
+                ExpenseTrack
+                
+                Expense Details
+                
+                Amount: ${formatCurrency(expense.amount)}
+                Category: ${expense.category}
+                Date: ${expense.date}
+                Note: ${expense.note.ifEmpty { "None" }}
+            """.trimIndent()
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "text/plain"
+                putExtra(Intent.EXTRA_SUBJECT, "Expense Detail")
+                putExtra(Intent.EXTRA_TEXT, shareText)
+            }
+            startActivity(Intent.createChooser(intent, "Share via"))
+        }
+    }
+
+    private fun formatCurrency(amount: Double): String {
+        return NumberFormat.getCurrencyInstance(Locale("en", "IN")).format(amount)
     }
 }
