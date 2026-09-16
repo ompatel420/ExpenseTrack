@@ -23,7 +23,7 @@ ExpenseTrack is a modern, lightweight Android application designed to help users
 ### Screenshots
 | Dashboard |  |  |
 | :---: | :---: | :---: |
-| <img src="screenshots/toast_1.png" width="250"> | <img src="screenshots/toast_2.png" width="250"> | <img src="screenshots/toast_3.png" width="250"> |
+| <img src="Screenshots/01.png" width="250"> | <img src="Screenshots/02.png" width="250"> | <img src="Screenshots/03.png" width="250"> |
 
 ## 🧠 Core Concepts & Code Logic
 
