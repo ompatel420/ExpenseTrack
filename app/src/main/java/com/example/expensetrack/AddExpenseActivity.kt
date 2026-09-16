@@ -187,7 +187,7 @@ class AddExpenseActivity : AppCompatActivity() {
 
         lifecycleScope.launch(Dispatchers.IO) {
             // Check limits before saving
-            checkLimitsAndNotify(category, amt)
+            checkLimitsAndNotify(category, amt, if (isEditMode) expenseId else -1)
 
             if (isEditMode) database.expenseDao().updateExpense(expense) else database.expenseDao().insertExpense(expense)
             withContext(Dispatchers.Main) {
@@ -197,10 +197,11 @@ class AddExpenseActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun checkLimitsAndNotify(category: String, newAmount: Double) {
+    private suspend fun checkLimitsAndNotify(category: String, newAmount: Double, excludeId: Int) {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val monthFilter = SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Calendar.getInstance().time)
-        val expenses = database.expenseDao().getAllExpenses().filter { it.date.contains(monthFilter) }
+        val expenses = database.expenseDao().getAllExpenses()
+            .filter { it.date.contains(monthFilter) && it.id != excludeId }
         
         // Total Limit check
         val totalSpent = expenses.sumOf { it.amount }
@@ -218,18 +219,25 @@ class AddExpenseActivity : AppCompatActivity() {
     }
 
     private fun showLimitNotification(title: String, message: String) {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+        val permission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED
+        } else true
+
+        if (permission) {
             val builder = NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setContentTitle(title)
                 .setContentText(message)
+                .setStyle(NotificationCompat.BigTextStyle().bigText(message))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setAutoCancel(true)
 
-            with(NotificationManagerCompat.from(this)) {
-                notify(System.currentTimeMillis().toInt(), builder.build())
+            try {
+                NotificationManagerCompat.from(this).notify(System.currentTimeMillis().toInt(), builder.build())
+            } catch (e: SecurityException) {
+                e.printStackTrace()
             }
         }
     }

@@ -1,5 +1,24 @@
 <resources>
     <string name="app_name">ExpenseTrack</string>
+    <string name="tagline">Personal Expense &amp; Receipt Manager</string>
+    <string name="this_month">This Month</string>
+    <string name="set_limit">Set Limit</string>
+    <string name="limit_label">Limit: %s</string>
+    <string name="remaining_label">%s remaining</string>
+    <string name="over_limit_label">%s over limit</string>
+    <string name="no_limit_set">Limit: Not set</string>
+    <string name="start_adding_expenses">Start adding your expenses</string>
+    <string name="expenses_recorded">%d expense(s) recorded</string>
+    <string name="quick_actions">Quick Actions</string>
+    <string name="add_expense">+ Add Expense</string>
+    <string name="view_expenses">View Expenses</string>
+    <string name="category_summary">Category Summary</string>
+    <string name="updated_automatically">Updated automatically</string>
+    <string name="recent_expenses">Recent Expenses</string>
+    <string name="no_expenses_yet">No expenses yet</string>
+    <string name="view_monthly_summary">View Monthly Summary</string>
+    <string name="tap_to_start">Tap Add Expense to start tracking</string>
+    <string name="enter_amount">Enter amount</string>
 
     <string-array name="categories">
         <item>Food</item>

@@ -10,10 +10,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.expensetrack.database.AppDatabase
+import com.example.expensetrack.database.Expense
 import com.example.expensetrack.databinding.ActivityMainBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
@@ -137,23 +139,20 @@ class MainActivity : AppCompatActivity() {
                     
                     updateLimitDisplay(limit, totalSpent)
 
-                    // Update category displays
-                    updateCategoryDisplay("Food", monthlyExpenses, prefs)
-                    updateCategoryDisplay("Travel", monthlyExpenses, prefs)
-                    updateCategoryDisplay("Shopping", monthlyExpenses, prefs)
-                    updateCategoryDisplay("Bills", monthlyExpenses, prefs)
-                    updateCategoryDisplay("Entertainment", monthlyExpenses, prefs)
-                    updateCategoryDisplay("Other", monthlyExpenses, prefs)
+                    val categories = resources.getStringArray(R.array.categories)
+                    categories.forEach { category ->
+                        updateCategoryDisplay(category, monthlyExpenses, prefs)
+                    }
 
                     if (expenses.isEmpty()) {
-                        tvExpenseMessage.text = "Start adding your expenses"
-                        tvCategoryInfo.text = "Add expenses to see"
-                        tvRecentInfo.text = "No expenses yet"
+                        tvExpenseMessage.text = getString(R.string.start_adding_expenses)
+                        tvCategoryInfo.text = getString(R.string.tap_to_start)
+                        tvRecentInfo.text = getString(R.string.no_expenses_yet)
                         layoutEmptyState.visibility = View.VISIBLE
                     } else {
-                        tvExpenseMessage.text = "${expenses.size} expense(s) recorded"
-                        tvCategoryInfo.text = "Updated automatically"
-                        tvRecentInfo.text = "${expenses.size} recorded"
+                        tvExpenseMessage.text = getString(R.string.expenses_recorded, expenses.size)
+                        tvCategoryInfo.text = getString(R.string.updated_automatically)
+                        tvRecentInfo.text = getString(R.string.expenses_recorded, expenses.size)
                         layoutEmptyState.visibility = View.GONE
                     }
                 }
@@ -164,21 +163,27 @@ class MainActivity : AppCompatActivity() {
     private fun ActivityMainBinding.updateLimitDisplay(limit: Float, totalSpent: Double) {
         if (limit > 0) {
             val remaining = limit - totalSpent
+            val amountStr = Utils.formatCurrency(Math.abs(remaining))
             tvRemainingLimit.text = if (remaining >= 0) {
-                "₹${String.format(Locale.getDefault(), "%.0f", remaining)} remaining"
+                getString(R.string.remaining_label, amountStr)
             } else {
-                "₹${String.format(Locale.getDefault(), "%.0f", -remaining)} over limit"
+                getString(R.string.over_limit_label, amountStr)
             }
-            tvRemainingLimit.setTextColor(if (remaining >= 0) 0xFFFFFFFF.toInt() else 0xFFFEE2E2.toInt())
-            tvMonthlyLimit.text = "Limit: ${Utils.formatCurrency(limit.toDouble())}"
+            tvRemainingLimit.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (remaining >= 0) R.color.white else R.color.error
+                )
+            )
+            tvMonthlyLimit.text = getString(R.string.limit_label, Utils.formatCurrency(limit.toDouble()))
         } else {
-            tvRemainingLimit.text = "Set Limit"
-            tvMonthlyLimit.text = "Limit: Not set"
-            tvRemainingLimit.setTextColor(0xFFFFFFFF.toInt())
+            tvRemainingLimit.text = getString(R.string.set_limit)
+            tvMonthlyLimit.text = getString(R.string.no_limit_set)
+            tvRemainingLimit.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.white))
         }
     }
 
-    private fun ActivityMainBinding.updateCategoryDisplay(category: String, expenses: List<com.example.expensetrack.database.Expense>, prefs: android.content.SharedPreferences) {
+    private fun ActivityMainBinding.updateCategoryDisplay(category: String, expenses: List<Expense>, prefs: android.content.SharedPreferences) {
         val total = expenses.filter { it.category == category }.sumOf { it.amount }
         val limit = prefs.getFloat("limit_$category", 0f)
 
@@ -213,17 +218,23 @@ class MainActivity : AppCompatActivity() {
     private fun updateCategoryLimitUI(tvRemaining: android.widget.TextView, tvLimit: android.widget.TextView, total: Double, limit: Float) {
         if (limit > 0) {
             val remaining = limit - total
+            val amountStr = Utils.formatCurrency(Math.abs(remaining))
             tvRemaining.text = if (remaining >= 0) {
-                "₹${String.format(Locale.getDefault(), "%.0f", remaining)} remaining"
+                getString(R.string.remaining_label, amountStr)
             } else {
-                "₹${String.format(Locale.getDefault(), "%.0f", -remaining)} over limit"
+                getString(R.string.over_limit_label, amountStr)
             }
-            tvRemaining.setTextColor(if (remaining >= 0) 0xFF0B6B4F.toInt() else 0xFFB91C1C.toInt())
-            tvLimit.text = "Limit: ${Utils.formatCurrency(limit.toDouble())}"
+            tvRemaining.setTextColor(
+                ContextCompat.getColor(
+                    this@MainActivity,
+                    if (remaining >= 0) R.color.primary else R.color.error
+                )
+            )
+            tvLimit.text = getString(R.string.limit_label, Utils.formatCurrency(limit.toDouble()))
             tvLimit.visibility = android.view.View.VISIBLE
         } else {
-            tvRemaining.text = "Set Limit"
-            tvRemaining.setTextColor(0xFF0B6B4F.toInt())
+            tvRemaining.text = getString(R.string.set_limit)
+            tvRemaining.setTextColor(ContextCompat.getColor(this@MainActivity, R.color.primary))
             tvLimit.visibility = android.view.View.GONE
         }
     }

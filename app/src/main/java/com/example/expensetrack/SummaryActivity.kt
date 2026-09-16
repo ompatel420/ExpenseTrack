@@ -37,12 +37,21 @@ class SummaryActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) {
                 binding.apply {
                     tvSummaryTotal.text = Utils.formatCurrency(monthlyExpenses.sumOf { it.amount })
-                    tvFoodTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Food" }.sumOf { it.amount })
-                    tvTravelTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Travel" }.sumOf { it.amount })
-                    tvShoppingTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Shopping" }.sumOf { it.amount })
-                    tvBillsTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Bills" }.sumOf { it.amount })
-                    tvEntertainmentTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Entertainment" }.sumOf { it.amount })
-                    tvOtherTotal.text = Utils.formatCurrency(monthlyExpenses.filter { it.category == "Other" }.sumOf { it.amount })
+                    
+                    val categories = resources.getStringArray(R.array.categories)
+                    categories.forEach { category ->
+                        val total = monthlyExpenses.filter { it.category == category }.sumOf { it.amount }
+                        val formattedTotal = Utils.formatCurrency(total)
+                        
+                        when (category) {
+                            "Food" -> tvFoodTotal.text = formattedTotal
+                            "Travel" -> tvTravelTotal.text = formattedTotal
+                            "Shopping" -> tvShoppingTotal.text = formattedTotal
+                            "Bills" -> tvBillsTotal.text = formattedTotal
+                            "Entertainment" -> tvEntertainmentTotal.text = formattedTotal
+                            "Other" -> tvOtherTotal.text = formattedTotal
+                        }
+                    }
                 }
             }
         }

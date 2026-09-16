@@ -21,7 +21,8 @@
             android:minHeight="48dp"
             android:text="‹  Back"
             android:textColor="#111827"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -30,7 +31,8 @@
             android:text="Add Expense"
             android:textColor="#111827"
             android:textSize="28sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,7 +40,8 @@
             android:layout_marginTop="4dp"
             android:text="Record your spending"
             android:textColor="#6B7280"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -47,7 +50,8 @@
             android:text="Amount"
             android:textColor="#111827"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/etAmount"
@@ -55,13 +59,14 @@
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
             android:background="#FFFFFF"
-            android:hint="Enter amount"
+            android:hint="@string/enter_amount"
             android:inputType="numberDecimal"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textColor="#111827"
             android:textColorHint="#9CA3AF"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            tools:ignore="Autofill" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -70,7 +75,8 @@
             android:text="Category"
             android:textColor="#111827"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <Spinner
             android:id="@+id/spinnerCategory"
@@ -88,7 +94,8 @@
             android:text="Date"
             android:textColor="#111827"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -112,7 +119,8 @@
             android:text="Note"
             android:textColor="#111827"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <EditText
             android:id="@+id/etNote"
@@ -126,7 +134,8 @@
             android:padding="16dp"
             android:textColor="#111827"
             android:textColorHint="#9CA3AF"
-            android:textSize="15sp" />
+            android:textSize="15sp"
+            tools:ignore="Autofill,HardcodedText" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -135,7 +144,8 @@
             android:text="Receipt"
             android:textColor="#111827"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <ImageView
             android:id="@+id/ivReceipt"
@@ -145,7 +155,8 @@
             android:background="#DDF5EA"
             android:contentDescription="Receipt image"
             android:scaleType="centerCrop"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btnCaptureReceipt"
@@ -157,7 +168,8 @@
             android:textAllCaps="false"
             android:textColor="#0B6B4F"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btnUploadReceipt"
@@ -169,7 +181,8 @@
             android:textAllCaps="false"
             android:textColor="#0B6B4F"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/btnSaveExpense"
@@ -181,7 +194,8 @@
             android:textAllCaps="false"
             android:textColor="#FFFFFF"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:ignore="HardcodedText" />
 
     </LinearLayout>
 

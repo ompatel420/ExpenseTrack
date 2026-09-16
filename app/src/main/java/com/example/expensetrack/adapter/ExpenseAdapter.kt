@@ -33,7 +33,10 @@ class ExpenseAdapter(
                 ivCategoryIcon.setImageResource(iconRes)
 
                 ivReceipt.visibility = if (expense.receiptUri != null) View.VISIBLE else View.GONE
-                root.setOnClickListener { onExpenseClick(expense) }
+                
+                val clickListener = View.OnClickListener { onExpenseClick(expense) }
+                root.setOnClickListener(clickListener)
+                layoutContent.setOnClickListener(clickListener)
             }
         }
     }
